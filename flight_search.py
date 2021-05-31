@@ -14,8 +14,8 @@ class FlightSearch:
         }
         response = requests.get(url=location_endpoint,
                                 headers=tequila_headers, params=query)
-        result = response.json()["locations"]
-        code = result[0]["code"]
+        results = response.json()["locations"]
+        code = results[0]["code"]
         return code
 
     def check_flights(self, origin_city_code, destination_city_code, from_time, to_time):
