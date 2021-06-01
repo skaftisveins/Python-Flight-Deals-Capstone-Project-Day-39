@@ -4,14 +4,38 @@ from data_manager import DataManager
 from flight_search import FlightSearch
 from notification_manager import NotificationManager
 from datetime import datetime as dt, timedelta
-
+import requests
 
 data_manager = DataManager()
 flight_search = FlightSearch()
 notification_manager = NotificationManager()
 
+print("Welcome to Skafti's Flight Club.")
+print("We find the best flight deals and email you the details.")
+first_name = input("What is your first name?")
+last_name = input("What is your last name?")
+user_email = input("What is your email?")
+verify_email = input("Type your email again.")
+
+if user_email == verify_email:
+    new_member = {
+        "user": {
+            "firstName": first_name,
+            "lastName": last_name,
+            "email": user_email
+        }
+    }
+    response = requests.post(
+        sheety_users_endpoint, headers=sheety_headers, json=new_member)
+    print(response.text)
+    
+    print("Congrats! You're in the club")
+else:
+    None
+
 
 sheet_data = data_manager.get_destination_data()
+data_manager.get_destination_data()
 
 if sheet_data[0]["iataCode"] == "":
     city_names = [row["city"] for row in sheet_data]

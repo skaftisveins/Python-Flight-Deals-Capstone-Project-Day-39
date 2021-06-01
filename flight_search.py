@@ -1,6 +1,7 @@
 from config import *
 from flight_data import FlightData
 import requests
+import pprint
 
 
 class FlightSearch:
@@ -31,7 +32,6 @@ class FlightSearch:
             "one_for_city": 1,
             "max_stopovers": 0,
             "curr": "ISK"
-
         }
 
         search_endpoint = f"{tequila_endpoint}/v2/search"
@@ -50,8 +50,10 @@ class FlightSearch:
             origin_airport=data["route"][0]["flyFrom"],
             destination_city=data["route"][0]["cityTo"],
             destination_airport=data["route"][0]["flyTo"],
-            out_date=data["route"][0]["local_departure"].split("T")[0],
-            return_date=data["route"][1]["local_departure"].split("T")[0]
+            out_date=data["route"][0]["local_departure"].split(
+                "T")[0],
+            return_date=data["route"][1]["local_departure"].split("T")[
+                0]
         )
         print(f"{flight_data.destination_city}: {flight_data.price} ISK")
         return flight_data
