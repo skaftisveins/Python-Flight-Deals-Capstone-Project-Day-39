@@ -3,15 +3,20 @@ import smtplib
 from email.mime.text import MIMEText
 from email.header import Header
 
+
 class NotificationManager:
-    #This class is responsible for sending notifications with the deal flight details.
-    def send_email(self, message):
-        message = MIMEText(message, "plain", "utf-8")
-        message["Subject"] = Header("Ódýr flugtilboð", "utf-8")
-        message["From"] = my_email
-        message["To"] = yahoo_email
-        
+    # This class is responsible for sending notifications with the deal flight details.
+
+    def send_emails(self, emails, message, google_flight_link):
         with smtplib.SMTP(smtp_address) as connection:
             connection.starttls()
             connection.login(my_email, my_password)
-            connection.sendmail(message["From"], message["To"], message.as_string())
+
+            for email in emails:
+                msg = MIMEText(f"{message}, {google_flight_link}".encode(
+                    'utf-8'), 'plain', 'utf-8')
+                msg["Subject"] = Header("Ódýr flugtilboð", "utf-8")
+                msg["From"] = my_email
+                msg["To"] = email
+
+                connection.sendmail(msg["From"], msg["To"], msg.as_string())
